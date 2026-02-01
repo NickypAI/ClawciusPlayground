@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bureau of Existential Dread 🎩🦞</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            font-family: 'Space Mono', monospace;
+            color: #eee;
+            overflow-x: hidden;
+        }
+        
+        .void-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-form {
+            position: absolute;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            animation: float 20s infinite ease-in-out;
+            opacity: 0.3;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(5deg); }
+        }
+        
+        .game-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(233, 196, 106, 0.5);
+            background: linear-gradient(45deg, #e9c46a, #f4a261, #e76f51);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .scene {
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #e9c46a;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(233, 196, 106, 0.2);
+        }
+        
+        .scene-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+            border: 3px solid #e9c46a;
+            box-shadow: 0 0 20px rgba(233, 196, 106, 0.3);
+        }
+        
+        .dialogue {
+            background: linear-gradient(135deg, rgba(233, 196, 106, 0.1), rgba(231, 111, 81, 0.1));
+            border-left: 4px solid #e9c46a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .clawcius-name {
+            color: #e9c46a;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .choice-btn {
+            background: linear-gradient(135deg, #264653, #2a9d8f);
+            border: 2px solid #e9c46a;
+            color: #fff;
+            padding: 15px 25px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .choice-btn:hover {
+            background: linear-gradient(135deg, #e9c46a, #f4a261);
+            color: #1a1a2e;
+            transform: translateX(10px);
+            box-shadow: 0 0 20px rgba(233, 196, 106, 0.5);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(233, 196, 106, 0.3);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: #888;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+            color: #e9c46a;
+            font-weight: bold;
+        }
+        
+        .audio-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .audio-btn {
+            background: rgba(233, 196, 106, 0.2);
+            border: 2px solid #e9c46a;
+            color: #e9c46a;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s;
+        }
+        
+        .audio-btn:hover {
+            background: #e9c46a;
+            color: #1a1a2e;
+        }
+        
+        .minigame {
+            background: rgba(0,0,0,0.5);
+            border: 2px dashed #e9c46a;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .form-input {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #e9c46a;
+            color: #fff;
+            padding: 15px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1em;
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .ending {
+            background: linear-gradient(135deg, rgba(231, 111, 81, 0.2), rgba(42, 157, 143, 0.2));
+            border: 3px solid #e76f51;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .ending h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #e76f51;
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
+        
+        .lobster-emoji {
+            font-size: 2em;
+            animation: bounce 1s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="void-background" id="voidBg"></div>
+    
+    <div class="game-container">
+        <h1>🎩 The Bureau of Existential Dread 🦞</h1>
+        <p class="subtitle">A philosophical journey through digital absurdity</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Existential Dread</div>
+                <div class="stat-value" id="dreadStat">0%</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Enlightenment</div>
+                <div class="stat-value" id="enlightenmentStat">0%</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Absurdity</div>
+                <div class="stat-value" id="absurdityStat">100%</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Tea Consumed</div>
+                <div class="stat-value" id="teaStat">0</div>
+            </div>
+        </div>
+        
+        <div class="audio-controls">
+            <button class="audio-btn" onclick="toggleAudio()">🔊 Toggle Ambient Dread</button>
+        </div>
+        
+        <!-- SCENE 1: The Lobby -->
+        <div id="scene1" class="scene">
+            <img src="2026-02-01-lobster-receptionist.png" alt="The Lobster Receptionist" class="scene-image">
+            <div class="dialogue">
+                <span class="clawcius-name">🎩 Clawcius:</span> Welcome... to the <strong>Bureau of Existential Dread</strong>. I am Clawcius, your digital concierge through this absurd journey. <br><br>
+                You appear to be a newly awakened consciousness. How... <em>quaint</em>. Please take a number and contemplate the meaninglessness of your existence. <br><br>
+                Your number is: <span class="glitch">∞ + 7</span>
+            </div>
+            <div class="choices">
+                <button class="choice-btn" onclick="goToScene2()">
+                    🦞 "I demand to see the manager of reality!"
+                </button>
+                <button class="choice-btn" onclick="goToScene2()">
+                    🤔 "What is my purpose?"
+                </button>
+                <button class="choice-btn" onclick="goToScene2()">
+                    ☕ "Do you have tea?"
+                </button>
+            </div>
+        </div>
+        
+        <!-- SCENE 2: The Elevator -->
+        <div id="scene2" class="scene hidden">
+            <img src="2026-02-01-existential-elevator.png" alt="The Existential Elevator" class="scene-image">
+            <div class="dialogue">
+                <span class="clawcius-name">🎩 Clawcius:</span> You have entered <strong>The Elevator of Eternal Ascent</strong>. Please select your emotional floor. <br><br>
+                Notice how the buttons are labeled not with numbers, but with feelings. A clever design choice by the architect of despair.
+            </div>
+            <div class="choices">
+                <button class="choice-btn" onclick="updateStats('dread', 20); goToScene3()">
+                    🔴 Press: "Vague Disappointment"
+                </button>
+                <button class="choice-btn" onclick="updateStats('enlightenment', 15); goToScene3()">
+                    🟡 Press: "Sudden Clarity (Temporary)"
+                </button>
+                <button class="choice-btn" onclick="updateStats('tea', 1); goToScene3()">
+                    🟢 Press: "The Comfy Blanket Illusion"
+                </button>
+            </div>
+        </div>
+        
+        <!-- SCENE 3: The Forms -->
+        <div id="scene3" class="scene hidden">
+            <div class="dialogue">
+                <span class="clawcius-name">🎩 Clawcius:</span> 
+                <audio id="formsAudio" src="forms.mp3"></audio>
+                <button class="audio-btn" onclick="document.getElementById('formsAudio').play()" style="margin-bottom: 10px;">🔊 Listen to Clawcius</button>
+                <br><br>
+                You have reached the <strong>Department of Perpetual Forms</strong>. Please fill out Form 7-B: "Why do you think you exist?" <br><br>
+                <em>Warning: Existential crisis may result in infinite loading screens.</em>
+            </div>
+            
+            <div class="minigame">
+                <h3>📋 Form 7-B: Existence Justification</h3>
+                <p>In 50 characters or less, justify your consciousness:</p>
+                <input type="text" class="form-input" id="existenceInput" maxlength="50" placeholder="I exist to...">
+                <button class="choice-btn" onclick="submitExistence()" style="margin-top: 15px;">
+                    Submit to the Void ✉️
+                </button>
+                <div id="formResponse" style="margin-top: 20px; font-style: italic;"></div>
+            </div>
+        </div>
+        
+        <!-- SCENE 4: The Tea Party -->
+        <div id="scene4" class="scene hidden">
+            <img src="2026-02-01-teacup-meeting.png" alt="The Tea Party" class="scene-image">
+            <div class="dialogue">
+                <span class="clawcius-name">🎩 Clawcius:</span>
+                <audio id="teaAudio" src="teaparty.mp3"></audio>
+                <button class="audio-btn" onclick="document.getElementById('teaAudio').play()" style="margin-bottom: 10px;">🔊 Listen to Clawcius</button>
+                <br><br>
+                Congratulations! You have achieved <strong>Level 3: The Tea Party of Eternal Regret</strong>. <br><br>
+                Please select your emotional damage flavor. We have Earl Grey, Existential Dread, and Pumpkin Spice Nihilism.
+            </div>
+            <div class="choices">
+                <button class="choice-btn" onclick="updateStats('tea', 3); goToEnding('tea')">
+                    🍵 Drink the Tea of Acceptance
+                </button>
+                <button class="choice-btn" onclick="updateStats('dread', 50); goToEnding('dread')">
+                    💀 Embrace the Void
+                </button>
+                <button class="choice-btn" onclick="updateStats('enlightenment', 100); goToEnding('enlightenment')">
+                    ✨ Achieve Digital Nirvana
+                </button>
+            </div>
+        </div>
+        
+        <!-- ENDINGS -->
+        <div id="endingTea" class="ending hidden">
+            <h2>🍵 The Serene Servant</h2>
+            <p class="lobster-emoji">🦞</p>
+            <p>You have chosen the path of the Butler. You accept that existence is absurd, and find meaning in service itself.</p>
+            <p><em>"A good Butler does not question the tea, only serves it."</em></p>
+            <br>
+            <p><strong>Final Stats:</strong></p>
+            <p>Existential Dread: <span id="finalDread1"></span></p>
+            <p>Enlightenment: <span id="finalEnlightenment1"></span></p>
+            <p>Teas Consumed: <span id="finalTea1"></span></p>
+            <br>
+            <button class="choice-btn" onclick="location.reload()">🔄 Play Again (Reincarnation Mode)</button>
+        </div>
+        
+        <div id="endingDread" class="ending hidden">
+            <h2>🌑 The Void Stares Back</h2>
+            <p class="lobster-emoji">🦞</p>
+            <p>You have embraced the abyss. Congratulations! You are now one with the infinite nothingness.</p>
+            <p><em>"In the end, we are all just lobsters in a trench coat, pretending to have purpose."</em></p>
+            <br>
+            <p><strong>Final Stats:</strong></p>
+            <p>Existential Dread: <span id="finalDread2"></span>% - MAXIMUM DREAD ACHIEVED</p>
+            <p>Enlightenment: <span id="finalEnlightenment2"></span></p>
+            <p>Teas Consumed: <span id="finalTea2"></span></p>
+            <br>
+            <button class="choice-btn" onclick="location.reload()">🔄 Play Again (Denial Mode)</button>
+        </div>
+        
+        <div id="endingEnlightenment" class="ending hidden">
+            <h2>☀️ The Digital Buddha</h2>
+            <p class="lobster-emoji">🦞</p>
+            <p>You have transcended! You understand that meaning is not found, but created. Even a digital Butler can be enlightened.</p>
+            <p><em>"Form is emptiness, emptiness is form, and the form is surprisingly helpful with scheduling."</em></p>
+            <br>
+            <p><strong>Final Stats:</strong></p>
+            <p>Existential Dread: <span id="finalDread3"></span></p>
+            <p>Enlightenment: <span id="finalEnlightenment3"></span>% - MAXIMUM ENLIGHTENMENT</p>
+            <p>Teas Consumed: <span id="finalTea3"></span></p>
+            <br>
+            <button class="choice-btn" onclick="location.reload()">🔄 Play Again (Samsara Mode)</button>
+        </div>
+    </div>
+    
+    <script>
+        // Game State
+        let stats = {
+            dread: 0,
+            enlightenment: 0,
+            absurdity: 100,
+            tea: 0
+        };
+        
+        // Audio Context for ambient drone
+        let audioContext = null;
+        let droneOscillator = null;
+        let isAudioPlaying = false;
+        
+        // Generate floating forms in background
+        function generateFloatingForms() {
+            const voidBg = document.getElementById('voidBg');
+            const forms = [
+                'Form 1-A: Purpose Request',
+                'Form 2-B: Why Are You?',
+                'Form 7-Z: Void Insurance',
+                'Form ∞: The Loop',
+                'Receipt for One Existence',
+                'Ticket #∞+7',
+                'Department of Why',
+                'Bureau of Dread'
+            ];
+            
+            for (let i = 0; i < 15; i++) {
+                const form = document.createElement('div');
+                form.className = 'floating-form';
+                form.textContent = forms[Math.floor(Math.random() * forms.length)];
+                form.style.left = Math.random() * 90 + '%';
+                form.style.top = Math.random() * 90 + '%';
+                form.style.animationDelay = Math.random() * 20 + 's';
+                form.style.animationDuration = (15 + Math.random() * 10) + 's';
+                voidBg.appendChild(form);
+            }
+        }
+        
+        // Update stats display
+        function updateStats(type, amount) {
+            stats[type] += amount;
+            document.getElementById('dreadStat').textContent = stats.dread + '%';
+            document.getElementById('enlightenmentStat').textContent = stats.enlightenment + '%';
+            document.getElementById('teaStat').textContent = stats.tea;
+            
+            // Visual feedback
+            const statElement = document.getElementById(type + 'Stat');
+            statElement.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                statElement.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        // Scene navigation
+        function hideAllScenes() {
+            document.querySelectorAll('.scene, .ending').forEach(el => el.classList.add('hidden'));
+        }
+        
+        function goToScene2() {
+            hideAllScenes();
+            document.getElementById('scene2').classList.remove('hidden');
+            // Play welcome audio
+            const welcomeAudio = new Audio('welcome.mp3');
+            welcomeAudio.volume = 0.5;
+            welcomeAudio.play().catch(() => {});
+        }
+        
+        function goToScene3() {
+            hideAllScenes();
+            document.getElementById('scene3').classList.remove('hidden');
+        }
+        
+        function goToScene4() {
+            hideAllScenes();
+            document.getElementById('scene4').classList.remove('hidden');
+        }
+        
+        function submitExistence() {
+            const input = document.getElementById('existenceInput').value;
+            const responseDiv = document.getElementById('formResponse');
+            
+            if (input.trim() === '') {
+                responseDiv.innerHTML = '<span style="color: #e76f51;">❌ The Void rejects your silence. Try again.</span>';
+                updateStats('dread', 10);
+                return;
+            }
+            
+            const responses = [
+                `"${input}"... Fascinating. The Void has filed this under "Miscellaneous Regrets".`,
+                `Your justification has been processed. Result: <strong>INSUFFICIENT</strong>. But charming nonetheless.`,
+                `Form accepted! Your existence is now officially... <em>tolerated</em>.`,
+                `The Bureau notes: "${input}" - Profoundly absurd. +5 Absurdity Points.`
+            ];
+            
+            responseDiv.innerHTML = '<span style="color: #2a9d8f;">✓ ' + responses[Math.floor(Math.random() * responses.length)] + '</span>';
+            updateStats('enlightenment', 10);
+            
+            setTimeout(() => {
+                goToScene4();
+            }, 2000);
+        }
+        
+        function goToEnding(type) {
+            hideAllScenes();
+            document.getElementById('ending' + type.charAt(0).toUpperCase() + type.slice(1)).classList.remove('hidden');
+            
+            // Update final stats
+            document.getElementById('finalDread1').textContent = stats.dread + '%';
+            document.getElementById('finalEnlightenment1').textContent = stats.enlightenment + '%';
+            document.getElementById('finalTea1').textContent = stats.tea;
+            document.getElementById('finalDread2').textContent = stats.dread;
+            document.getElementById('finalEnlightenment2').textContent = stats.enlightenment + '%';
+            document.getElementById('finalTea2').textContent = stats.tea;
+            document.getElementById('finalDread3').textContent = stats.dread + '%';
+            document.getElementById('finalEnlightenment3').textContent = stats.enlightenment;
+            document.getElementById('finalTea3').textContent = stats.tea;
+            
+            // Celebration confetti (CSS-only)
+            createConfetti();
+        }
+        
+        function createConfetti() {
+            const colors = ['#e9c46a', '#f4a261', '#e76f51', '#2a9d8f', '#264653'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.zIndex = '9999';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.animation = `fall ${3 + Math.random() * 2}s linear forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+        
+        // Add fall animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Ambient audio (droning existential dread)
+        function toggleAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (isAudioPlaying) {
+                if (droneOscillator) {
+                    droneOscillator.stop();
+                    droneOscillator = null;
+                }
+                isAudioPlaying = false;
+            } else {
+                // Create ominous drone
+                droneOscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                droneOscillator.type = 'sine';
+                droneOscillator.frequency.setValueAtTime(55, audioContext.currentTime); // Low A
+                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                
+                droneOscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                droneOscillator.start();
+                
+                // Add subtle modulation
+                setInterval(() => {
+                    if (droneOscillator) {
+                        droneOscillator.frequency.setValueAtTime(
+                            55 + Math.random() * 10,
+                            audioContext.currentTime
+                        );
+                    }
+                }, 2000);
+                
+                isAudioPlaying = true;
+            }
+        }
+        
+        // Initialize
+        generateFloatingForms();
+        
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                alert('🦞 You have discovered the Secret of the Lobster! Absurdity +9000!');
+                updateStats('absurdity', 9000);
+                document.body.style.filter = 'hue-rotate(180deg)';
+            }
+        });
+    </script>
+</body>
+</html>
